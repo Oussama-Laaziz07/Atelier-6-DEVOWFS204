@@ -53,8 +53,11 @@
       button.firstChild.textContent = 'Enregistrement en cours… ';
       try {
         const response = await fetch('/api/inscrire.php', { method: 'POST', body: new FormData(form) });
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.error || 'Une erreur est survenue.');
+        const raw = await response.text();
+        let result;
+        try { result = JSON.parse(raw); }
+        catch { throw new Error(`L’API PHP a renvoyé une réponse non JSON (HTTP ${response.status}). Consultez les journaux Functions de ce déploiement Vercel.`); }
+        if (!response.ok) throw new Error(result.error || `Erreur serveur (HTTP ${response.status}).`);
         form.reset();
         status.textContent = result.message;
       } catch (error) {
