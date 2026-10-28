@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f6f2">
+  <title>Inscription des stagiaires | Atelier 6</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{color-scheme:light;--ink:#17221f;--muted:#64716c;--line:#dce4de;--green:#176b4a;--lime:#d7f26a;--paper:#f5f6f2;--white:#fff;--shadow:0 22px 70px #183a2912}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 'DM Sans',sans-serif}a{color:inherit}.shell{max-width:1160px;margin:auto;padding:24px 34px 60px}.topbar{height:64px;display:flex;align-items:center;justify-content:space-between}.brand{font:800 18px Manrope,sans-serif;letter-spacing:-.04em}.brand-mark{display:inline-grid;place-items:center;width:30px;height:30px;margin-right:9px;border-radius:9px;background:var(--green);color:white;font-size:14px}.top-link{font-weight:600;text-decoration:none;color:var(--muted)}.top-link:hover{color:var(--green)}.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;padding:44px 0 24px}.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--green);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.eyebrow:before{content:'';width:22px;height:2px;background:var(--green)}h1,h2{font-family:Manrope,sans-serif;letter-spacing:-.055em}h1{font-size:clamp(42px,6vw,70px);line-height:1.03;margin:17px 0 20px;max-width:650px}.intro{font-size:18px;color:var(--muted);max-width:490px}.hero-note{margin-top:30px;padding:17px 18px;border-left:3px solid var(--lime);background:#fff9;border-radius:0 12px 12px 0;color:#51605a;font-size:14px;max-width:450px}.visual{position:relative;min-height:350px;border-radius:28px;background:#dcebe0;overflow:hidden;display:grid;place-items:center}.visual:before,.visual:after{content:'';position:absolute;border-radius:50%;background:#c3dfce}.visual:before{width:270px;height:270px;right:-80px;top:-95px}.visual:after{width:210px;height:210px;left:-80px;bottom:-95px;background:#c8e3ea}.visual-card{position:relative;z-index:1;width:min(78%,330px);padding:26px;border:1px solid #ffffffd9;border-radius:22px;background:#ffffffdf;box-shadow:0 24px 55px #315d4324;transform:rotate(-3deg)}.avatar-row{display:flex;align-items:center;gap:13px;margin-bottom:21px}.avatar{width:52px;height:52px;display:grid;place-items:center;border-radius:17px;background:#f2d39a;font-size:25px}.avatar-copy strong,.avatar-copy span{display:block}.avatar-copy span{color:var(--muted);font-size:13px}.fake-line{height:10px;background:#e4ebe5;border-radius:99px;margin-top:12px}.fake-line.short{width:62%}.fake-pill{display:inline-block;margin-top:21px;padding:7px 12px;background:var(--lime);border-radius:99px;font-size:11px;font-weight:700}.form-section{display:grid;grid-template-columns:.7fr 1.3fr;gap:56px;padding:52px 0 12px;border-top:1px solid var(--line)}.section-copy h2{font-size:30px;line-height:1.15;margin:0 0 14px}.section-copy p{color:var(--muted);margin:0}.form-card{padding:30px;background:var(--white);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field{display:flex;flex-direction:column;gap:8px}.field.full{grid-column:1/-1}label{font-size:13px;font-weight:700}input{width:100%;font:inherit;color:var(--ink);border:1px solid var(--line);border-radius:10px;background:#fff;padding:13px 14px;outline:none}input:focus{border-color:var(--green);box-shadow:0 0 0 3px #176b4a1a}input[type=file]{padding:10px;font-size:13px}.hint{color:var(--muted);font-size:12px;margin-top:-3px}.form-actions{display:flex;align-items:center;gap:16px;margin-top:22px}.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 19px;border:0;border-radius:10px;background:var(--green);color:#fff;font:700 14px 'DM Sans',sans-serif;text-decoration:none;cursor:pointer;transition:transform .15s,background .15s}.button:hover{transform:translateY(-1px);background:#105a3d}.button:disabled{opacity:.6;cursor:wait;transform:none}.status{min-height:24px;color:var(--green);font-size:13px}.status.error{color:#b42318}.footer{display:flex;justify-content:space-between;gap:18px;padding-top:38px;color:var(--muted);font-size:13px}.footer a{color:var(--green);font-weight:600;text-decoration:none}@media(max-width:780px){.shell{padding:16px 20px 40px}.hero{grid-template-columns:1fr;gap:26px;padding-top:30px}.visual{min-height:280px}.form-section{grid-template-columns:1fr;gap:22px;padding-top:34px}.form-card{padding:22px}.footer{flex-direction:column}}@media(max-width:480px){.field-grid{grid-template-columns:1fr}.field.full{grid-column:auto}h1{font-size:44px}.form-actions{align-items:stretch;flex-direction:column}.form-actions .button{width:100%}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <nav class="topbar" aria-label="Navigation principale">
+      <a class="brand" href="./"><span class="brand-mark">A6</span>Atelier six</a>
+      <a class="top-link" href="liste.html">Voir les stagiaires <span aria-hidden="true">↗</span></a>
+    </nav>
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <span class="eyebrow">Quick Annonces · Sprint 3</span>
+        <h1 id="page-title">Une inscription simple, un parcours complet.</h1>
+        <p class="intro">Ajoutez les informations du stagiaire et sa photo. Les données sont enregistrées dans la base de données et l’image est hébergée dans le cloud.</p>
+        <div class="hero-note">Remplissez les champs ci-dessous. Les formats d’image JPG, PNG et WebP sont acceptés, jusqu’à 5 Mo.</div>
+      </div>
+      <div class="visual" aria-hidden="true"><div class="visual-card"><div class="avatar-row"><div class="avatar">✦</div><div class="avatar-copy"><strong>Nouveau profil</strong><span>Inscription stagiaire</span></div></div><div class="fake-line"></div><div class="fake-line short"></div><span class="fake-pill">Profil prêt à rejoindre l’équipe</span></div></div>
+    </section>
+    <section class="form-section" aria-labelledby="form-title">
+      <div class="section-copy"><span class="eyebrow">Inscription</span><h2 id="form-title">Créer un profil stagiaire</h2><p>Les champs marqués sont requis. Votre photo sera stockée de manière sécurisée par Cloudinary.</p></div>
+      <form class="form-card" id="signup-form" enctype="multipart/form-data">
+        <div class="field-grid">
+          <div class="field"><label for="prenom">Prénom</label><input id="prenom" name="prenom" autocomplete="given-name" maxlength="100" required></div>
+          <div class="field"><label for="nom">Nom</label><input id="nom" name="nom" autocomplete="family-name" maxlength="100" required></div>
+          <div class="field"><label for="ville">Ville</label><input id="ville" name="ville" autocomplete="address-level2" maxlength="100" required></div>
+          <div class="field"><label for="photo">Photo</label><input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" required><span class="hint">JPG, PNG ou WebP · 5 Mo max.</span></div>
+        </div>
+        <div class="form-actions"><button class="button" id="submit-button" type="submit">Enregistrer l’inscription <span aria-hidden="true">→</span></button><p class="status" id="status" role="status" aria-live="polite"></p></div>
+      </form>
+    </section>
+    <footer class="footer"><span>Atelier 6 · Gestion des stagiaires</span><a href="liste.html">Découvrir la liste des stagiaires →</a></footer>
+  </main>
+  <script>
+    const form = document.querySelector('#signup-form');
+    const status = document.querySelector('#status');
+    const button = document.querySelector('#submit-button');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.textContent = '';
+      status.classList.remove('error');
+      button.disabled = true;
+      button.firstChild.textContent = 'Enregistrement en cours… ';
+      try {
+        const response = await fetch('/api/inscrire.php', { method: 'POST', body: new FormData(form) });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Une erreur est survenue.');
+        form.reset();
+        status.textContent = result.message;
+      } catch (error) {
+        status.textContent = error.message || 'Impossible de joindre le serveur.';
+        status.classList.add('error');
+      } finally {
+        button.disabled = false;
+        button.firstChild.textContent = 'Enregistrer l’inscription ';
+      }
+    });
+  </script>
+</body>
+</html>
