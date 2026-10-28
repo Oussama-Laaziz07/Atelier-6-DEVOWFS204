@@ -52,11 +52,12 @@
       button.disabled = true;
       button.firstChild.textContent = 'Enregistrement en cours… ';
       try {
-        const response = await fetch('/api/inscrire.php', { method: 'POST', body: new FormData(form) });
+        const apiUrl = new URL('api/inscrire.php', window.location.href);
+        const response = await fetch(apiUrl, { method: 'POST', body: new FormData(form) });
         const raw = await response.text();
         let result;
         try { result = JSON.parse(raw); }
-        catch { throw new Error(`L’API PHP a renvoyé une réponse non JSON (HTTP ${response.status}). Consultez les journaux Functions de ce déploiement Vercel.`); }
+        catch { throw new Error(`L’API ${apiUrl.pathname} a renvoyé du HTML au lieu du JSON (HTTP ${response.status}, ${response.headers.get('content-type') || 'type inconnu'}). Vérifiez que le dossier api/ est à la racine du projet Vercel et consultez ses journaux Functions.`); }
         if (!response.ok) throw new Error(result.error || `Erreur serveur (HTTP ${response.status}).`);
         form.reset();
         status.textContent = result.message;
