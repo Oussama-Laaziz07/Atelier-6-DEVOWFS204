@@ -28,21 +28,53 @@ if (!isset($allowedTypes[$mime])) {
     jsonResponse(422, ['error' => 'Formats acceptés : JPG, PNG ou WebP.']);
 }
 
-$cloudinaryUrl = getenv('CLOUDINARY_URL') ?: '';
-if ($cloudinaryUrl === '') {
-    jsonResponse(500, ['error' => 'CLOUDINARY_URL doit être configurée dans les variables d’environnement.']);
-}
+$cloudinaryUrl = trim((string) (getenv('CLOUDINARY_URL') ?: ''));
+$cloudinaryCloudName = trim((string) (getenv('CLOUDINARY_CLOUD_NAME') ?: ''));
+$cloudinaryApiKey = trim((string) (getenv('CLOUDINARY_API_KEY') ?: ''));
+$cloudinaryApiSecret = trim((string) (getenv('CLOUDINARY_API_SECRET') ?: ''));
 
-$stage = 'préparation Cloudinary';
+$stage = 'configuration Cloudinary';
 try {
     $autoload = dirname(__DIR__) . '/vendor/autoload.php';
     if (!is_file($autoload)) {
-        throw new RuntimeException('Dépendances absentes. Exécutez composer install avant le déploiement.');
+        throw new RuntimeException('Le SDK Cloudinary est absent : vérifiez que Composer installe les dépendances du projet sur Vercel.');
     }
     require_once $autoload;
 
-    // The SDK reads CLOUDINARY_URL directly from the process environment.
-    $cloudinary = new Cloudinary\Cloudinary();
+    $parts = $cloudinaryUrl !== '' ? parse_url($cloudinaryUrl) : false;
+    $validUrl = is_array($parts)
+        && ($parts['scheme'] ?? '') === 'cloudinary'
+        && !empty($parts['host'])
+        && !empty($parts['user'])
+        && !empty($parts['pass']);
+    $validSeparateConfig = $cloudinaryCloudName !== '' && $cloudinaryApiKey !== '' && $cloudinaryApiSecret !== '';
+
+    if ($validUrl) {
+        $cloudinaryConfig = [
+            'cloud' => [
+                'cloud_name' => $parts['host'],
+                'api_key' => rawurldecode($parts['user']),
+                'api_secret' => rawurldecode($parts['pass']),
+            ],
+            'url' => ['secure' => true],
+        ];
+    } elseif ($validSeparateConfig) {
+        $cloudinaryConfig = [
+            'cloud' => [
+                'cloud_name' => $cloudinaryCloudName,
+                'api_key' => $cloudinaryApiKey,
+                'api_secret' => $cloudinaryApiSecret,
+            ],
+            'url' => ['secure' => true],
+        ];
+    } elseif ($cloudinaryUrl !== '') {
+        throw new RuntimeException('CLOUDINARY_URL doit être l’URL complète cloudinary://API_KEY:API_SECRET@CLOUD_NAME, pas l’API Key seule.');
+    } else {
+        throw new RuntimeException('Configurez les trois variables CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY et CLOUDINARY_API_SECRET, ou CLOUDINARY_URL complète. Une API Key seule ne suffit pas.');
+    }
+
+    $cloudinary = new Cloudinary\Cloudinary($cloudinaryConfig);
+    $stage = 'téléversement Cloudinary';
     $upload = $cloudinary->uploadApi()->upload($photo['tmp_name'], [
         'folder' => 'atelier6-stagiaires',
         'resource_type' => 'image',
@@ -64,10 +96,12 @@ try {
     jsonResponse(201, ['message' => 'Inscription enregistrée avec succès.', 'id' => (int) $db->lastInsertId()]);
 } catch (Throwable $error) {
     error_log('[atelier6][' . $stage . '] ' . $error->getMessage());
-    $help = $stage === 'préparation Cloudinary'
-        ? 'Vérifiez CLOUDINARY_URL et l’installation des dépendances Composer.'
+    $help = $stage === 'configuration Cloudinary'
+        ? $error->getMessage()
+        : ($stage === 'téléversement Cloudinary'
+            ? 'Vérifiez que le cloud name, l’API Key et l’API Secret proviennent du même environnement Cloudinary.'
         : ($stage === 'connexion à Aiven'
             ? 'Vérifiez les variables DB_*, le certificat CA Aiven et la connexion MySQL.'
-            : 'Vérifiez que la table stagiaires contient les colonnes attendues.');
+            : 'Vérifiez que la table stagiaires contient les colonnes attendues.'));
     jsonResponse(500, ['error' => 'Échec pendant ' . $stage . '. ' . $help]);
 }

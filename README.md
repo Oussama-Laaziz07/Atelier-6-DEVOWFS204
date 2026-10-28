@@ -26,7 +26,9 @@ Dans **Project → Settings → Environment Variables**, ajoutez les valeurs iss
 | `DB_NAME` | Nom de la base, souvent `defaultdb` |
 | `DB_USER` | Utilisateur MySQL Aiven |
 | `DB_PASSWORD` | Mot de passe MySQL Aiven |
-| `CLOUDINARY_URL` | URL privée au format `cloudinary://API_KEY:API_SECRET@CLOUD_NAME` |
+| `CLOUDINARY_URL` | URL complète au format `cloudinary://API_KEY:API_SECRET@CLOUD_NAME` |
+
+Au lieu de `CLOUDINARY_URL`, vous pouvez définir les trois variables `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` et `CLOUDINARY_API_SECRET`. **Une API Key seule ne suffit pas** pour un téléversement signé. La valeur de `CLOUDINARY_URL` doit être l’URL complète affichée dans Cloudinary; ne mettez pas seulement la clé dans cette variable.
 
 Ne mettez pas les mots de passe ou `CLOUDINARY_URL` dans les fichiers suivis par Git. Vercel doit fournir ces valeurs au runtime PHP.
 
