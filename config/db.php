@@ -37,13 +37,11 @@ function getDatabase(): PDO
     }
 
     if (is_file($caPath)) {
-        if (!defined('PDO::MYSQL_ATTR_SSL_CA')) {
+        if (!class_exists(\Pdo\Mysql::class)) {
             throw new RuntimeException('Le pilote PDO MySQL doit être activé avec le support TLS.');
         }
-        $options[constant('PDO::MYSQL_ATTR_SSL_CA')] = $caPath;
-        if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
-            $options[constant('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')] = true;
-        }
+        $options[\Pdo\Mysql::ATTR_SSL_CA] = $caPath;
+        $options[\Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT] = true;
     } else {
         throw new RuntimeException('Certificat CA Aiven absent : ajoutez certs/ca.pem ou configurez DB_CA_CERT.');
     }

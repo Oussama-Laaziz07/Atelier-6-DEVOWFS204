@@ -33,6 +33,7 @@ if ($cloudinaryUrl === '') {
     jsonResponse(500, ['error' => 'CLOUDINARY_URL doit être configurée dans les variables d’environnement.']);
 }
 
+$stage = 'préparation Cloudinary';
 try {
     $autoload = dirname(__DIR__) . '/vendor/autoload.php';
     if (!is_file($autoload)) {
@@ -53,13 +54,20 @@ try {
         throw new RuntimeException('Cloudinary n’a pas renvoyé une URL sécurisée.');
     }
 
+    $stage = 'connexion à Aiven';
     require_once dirname(__DIR__) . '/config/db.php';
     $db = getDatabase();
+    $stage = 'insertion dans la table stagiaires';
     $statement = $db->prepare('INSERT INTO stagiaires (nom, prenom, ville, photo) VALUES (:nom, :prenom, :ville, :photo)');
     $statement->execute(['nom' => $nom, 'prenom' => $prenom, 'ville' => $ville, 'photo' => $photoUrl]);
 
     jsonResponse(201, ['message' => 'Inscription enregistrée avec succès.', 'id' => (int) $db->lastInsertId()]);
 } catch (Throwable $error) {
-    error_log('[atelier6] ' . $error->getMessage());
-    jsonResponse(500, ['error' => 'L’inscription n’a pas pu être enregistrée. Vérifiez la configuration du serveur.']);
+    error_log('[atelier6][' . $stage . '] ' . $error->getMessage());
+    $help = $stage === 'préparation Cloudinary'
+        ? 'Vérifiez CLOUDINARY_URL et l’installation des dépendances Composer.'
+        : ($stage === 'connexion à Aiven'
+            ? 'Vérifiez les variables DB_*, le certificat CA Aiven et la connexion MySQL.'
+            : 'Vérifiez que la table stagiaires contient les colonnes attendues.');
+    jsonResponse(500, ['error' => 'Échec pendant ' . $stage . '. ' . $help]);
 }
